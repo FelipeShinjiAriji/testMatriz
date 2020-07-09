@@ -1,0 +1,142 @@
+isMatrizQuadrada = function(x){
+  dimensions = dim(x)
+  return(dimensions[1] == dimensions[2])
+}
+ 
+isMatrizTriangularSuperior = function(x){
+  if(isMatrizQuadrada(x)){
+    for(i in 1:(sqrt(length(x)))){
+      for(j in 1:(sqrt(length(x)))){
+        if(i>j){
+          if(x[i,j] != 0){
+            return(FALSE)
+          }
+        }
+      }
+    }
+    return(TRUE)
+  }  else{
+     return(FALSE)
+  }
+}
+ 
+ 
+isMatrizTriangularInferior = function(x){
+  if(isMatrizQuadrada(x)){
+    for(i in 1:(sqrt(length(x)))){
+      for(j in 1:(sqrt(length(x)))){
+        if(i<j){
+          if(x[i,j] != 0){
+            return(FALSE)
+          }
+        }
+      }
+    }
+    return(TRUE)
+  }  else{
+     return(FALSE)
+  }
+}
+ 
+ 
+isMatrizDiagonal = function(x){
+  return(isMatrizTriangularInferior(x) & isMatrizTriangularSuperior(x))
+}
+ 
+ 
+isMatrizIdentidade = function(x){
+  if(isMatrizDiagonal(x)){
+    n1Diagonal = 0
+    for(i in 1:(sqrt(length(x)))){
+      if(x[i,i] == 1){
+        n1Diagonal = n1Diagonal + 1
+      }
+    }
+    return(n1Diagonal == sqrt(length(x)))
+    }  else{
+    return(FALSE)
+  }
+}
+ 
+ 
+isMatrizEsparsa = function(x){
+  quantiteOf0 = 0
+  for(i in 1:(sqrt(length(x)))){
+    for(j in 1:(sqrt(length(x)))){
+      if(x[i,j] == 0){
+        quantiteOf0 = quantiteOf0 + 1
+      }
+    }
+  }
+  return(quantiteOf0 >= (0.7*length(x)))
+}
+ 
+ 
+isMatrizDiagonalmenteDominante = function(x){
+  if(isMatrizQuadrada(x)){
+    for(i in 1:(sqrt(length(x)))){
+      somaDaLinha = 0
+      for(j in 1:(sqrt(length(x)))){
+        somaDaLinha = somaDaLinha + x[i,j]
+      }
+      if(somaDaLinha > (2 * x[i,i])){
+        return(FALSE)
+      }
+    }
+    return(TRUE)
+  }  else{
+      return(FALSE)
+    }
+}
+ 
+ 
+testMatriz = function(x){
+ 
+  if(is.numeric(x)){
+  
+    if(isMatrizQuadrada(x)){
+      cat("A matriz é quadrada\n")
+    }  else{
+      cat("A matriz não é quadrada\n")
+    }
+ 
+    if(isMatrizTriangularSuperior(x)){
+      cat("A matriz é triangular superior\n")
+    }  else{
+      cat("A matriz não é triangular superior\n")
+    }
+ 
+    if(isMatrizTriangularInferior(x)){
+      cat("A matriz é triangular inferior\n")
+    }  else{
+      cat("A matriz não é triangular inferior\n")
+    }
+ 
+    if(isMatrizDiagonal(x)){
+      cat("A matriz é diagonal\n")
+    }  else{
+      cat("A matriz não é diagonal\n")
+    }
+ 
+    if(isMatrizIdentidade(x)){
+      cat("A matriz é identidade\n")
+    }  else{
+      cat("A matriz não é identidade\n")
+    }
+ 
+    if(isMatrizEsparsa(x)){
+      cat("A matriz é esparsa\n")
+    }  else{
+      cat("A matriz não é esparsa\n")
+    }
+ 
+    if(isMatrizDiagonalmenteDominante(x)){
+      cat("A matriz é diagonalmente dominante\n")
+    }  else{
+      cat("A matriz não é diagonalmente dominante\n")
+    }
+ 
+  } else {
+     cat("insira uma matriz válida")
+  }
+}
